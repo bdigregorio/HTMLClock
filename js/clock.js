@@ -4,7 +4,17 @@ window.onload = function() {
 
 function getTime() {
     var date = new Date();
-    var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    var hours = date.getHours();
+    var minutes = leadingZero(date.getMinutes());
+    var seconds = leadingZero(date.getSeconds());
+    var time = hours + ":" + minutes + ":" + seconds;
     
     document.getElementById('clock').innerHTML = time;
+}
+
+function leadingZero(timeVal) {
+    if (timeVal < 10) {
+        return "0" + timeVal;
+    }
+    return timeVal;
 }
