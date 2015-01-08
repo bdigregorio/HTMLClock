@@ -1,0 +1,15 @@
+body {
+    background-color: DarkSlateGray;
+    font-family: "Verdana", "Arial", "sans-serif";
+    text-align: center;
+    padding-top: 50px;
+    font-size: 1.5em;
+}
+
+.white {
+    color: white;
+}
+
+#clock {
+    margin-top: 0;
+}
