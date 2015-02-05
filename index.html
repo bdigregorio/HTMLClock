@@ -3,15 +3,44 @@
     <head>
         <title>Ben's super cool weather clock of doom</title>
         <link href="css/index.css" rel="stylesheet" type="text/css">
+        <link href="css/alarm.css" rel="stylesheet" type="text/css">
     </head>
 
     <body>
         <p class="white">Ben's super cool <strong><em>weather</em></strong> clock of doom</p>
         <h1 id="clock" class="white">12:30:55pm</h1>
-        <p class="white">No alarms set!</p>
 
         <img id="forecast-icon">
         <div id="forecast-label" class="white">
+        </div>
+
+        <div id="alarmContainer">
+            <div id="alarmHeader" class="flexible">
+                <h2>Alarms</h2>
+                <input type="button" value="Add Alarm" class="button" onclick="showAlarmPopup()"/>
+            </div>
+            <div id="alarms"></div>
+        </div>   
+
+        <div id="mask" class="hide">
+            <div id="popup" class="hide">
+                <h2>Add Alarm</h2>
+                <div id="timeContainer">
+                    <select id="hours">
+                    </select>
+                    <select id="mins">
+                    </select>
+                    <select id="ampm">
+                        <option>am</option>
+                        <option>pm</option>
+                    </select>
+                </div>
+                <input type="text" id="alarmName" placeholder="Alarm Name" />      
+                <div class="flexible">
+                    <input type="button" value="Cancel" class="button" onclick="hideAlarmPopup()"/>
+                    <input type="button" value="Save Alarm" class="button" onclick="addAlarm()"/>
+                </div>
+            </div>
         </div>
 
         <!-- Keep at bottom of document for faster page loading -->

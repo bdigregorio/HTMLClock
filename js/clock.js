@@ -1,6 +1,7 @@
 window.onload = function() {
     window.setInterval(getTime, 1000);
     getTemp();
+    populateAlarmOptions();
 };
 
 function getTime() {
@@ -54,5 +55,55 @@ function getTemp() {
         }
 
         return color;
+    }
+}
+
+function showAlarmPopup() {
+    $('#mask').removeClass('hide');
+    $('#popup').removeClass('hide');
+}
+
+function hideAlarmPopup() {
+    $('#mask').addClass('hide');
+    $('#popup').addClass('hide');
+}
+
+function addAlarm() {
+    var hours, mins, ampm, alarmName;
+
+    hours = $('#hours option:selected').text();
+    mins = $('#mins option:selected').text();
+    ampm = $('#ampm option:selected').text();
+    alarmName = $('#alarmName').val();
+
+    insertAlarm(hours, mins, ampm, alarmName);
+    hideAlarmPopup();
+}
+
+function insertAlarm(hours, mins, ampm, name) {
+    var alarm, alarmName, time;
+
+    //create the alarm
+    alarm = $('<div>').addClass('flexible');
+    alarmName = $('<div>').addClass('alarm-entry').html(name);
+    time = $('<div>').addClass('alarm-entry').html(hours + ':' +  mins + ampm);
+    alarm.append(time).append(alarmName);
+
+    $('#alarms').append(alarm);
+}
+
+function populateAlarmOptions() {
+    var hours = $('#hours');
+    var mins = $('#mins');
+    var option;
+
+    for (var i = 1; i < 13; i++) {
+        option = $('<option>').html(('0' + i).slice(-2));
+        hours.append(option);
+    }
+
+    for (var i = 1; i < 61; i++) {
+        option = $('<option>').html(('0' + i).slice(-2));
+        mins.append(option);
     }
 }
