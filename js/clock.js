@@ -95,22 +95,40 @@ function addAlarm() {
 }
 
 function insertAlarm(hours, mins, ampm, name) {
-    var alarm, alarmName, timeDiv, text;
+    var alarm, alarmName, timeDiv, text, removeBtn;
+
+    text = $('<p>').html(name);
+    alarmName = $('<div>').addClass('alarm-entry').html(text);
+
+    text = $('<p>').html(hours + ':' +  mins + ampm)
+    timeDiv = $('<div>').addClass('alarm-entry').html(text);
+
+    removeBtn = $('<input type="button" value="Remove"/>').click(removeAlarm);
+    removeBtn = $('<div>').addClass('alarm-entry').append(removeBtn.addClass('button'));
 
     //create the alarm entry
     alarm = $('<div>').addClass('flexible');
-    text = $('<p>').html(name);
-    alarmName = $('<div>').addClass('alarm-entry').html(text);
-    text = $('<p>').html(hours + ':' +  mins + ampm)
-    timeDiv = $('<div>').addClass('alarm-entry').html(text);
-    alarm.append(timeDiv).append(alarmName);
-
-    //add a button to delete the alarm
-    var removeBtn = $('<input type="button" value="Remove" class="button right vertical-center" onclick="removeAlarm()"/>');
-    removeBtn = $('<div>').append(removeBtn);
-    alarm.append(removeBtn);
+    alarm.append(removeBtn).append(timeDiv).append(alarmName);
 
     $('#alarms').append(alarm);
+}
+
+function removeAlarm() {
+    var name = $(this).parent().next().next().text();
+    var alarmRow = $(this).parent().parent();
+    var AlarmObject = Parse.Object.extend('Alarm');
+    var query = new Parse.Query(AlarmObject);
+
+    query.equalTo('alarmName', name);
+    query.find({
+        success: function(results) {
+            results[0].destroy();
+            alarmRow.remove();
+        },
+        error: function() {
+            alert('Problem deleting alarm from Parse');
+        }
+    });
 }
 
 function populateAlarmOptions() {
@@ -119,12 +137,12 @@ function populateAlarmOptions() {
     var option;
 
     for (var i = 1; i < 13; i++) {
-        option = $('<option>').html(('0' + i).slice(-2));
+        option = $('<option>').html(leadingZero(i));
         hours.append(option);
     }
 
     for (var i = 1; i < 61; i++) {
-        option = $('<option>').html(('0' + i).slice(-2));
+        option = $('<option>').html(leadingZero(i));
         mins.append(option);
     }
 }

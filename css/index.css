@@ -6,28 +6,6 @@ body {
     font-size: 1.5em;
 }
 
-.relative {
-    position: relative;
-}
-
-.vertical-center {
-    position: absolute;
-    top: 50;
-    transform: translateY(-50%);
-}
-
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
-}
-
-.clearfix {
-    clear: both;
-}
-
 .white {
     color: white;
 }
@@ -42,6 +20,10 @@ body {
 
 #forecast-icon {
     margin-top: 2em;
+}
+
+#forecast-label {
+    margin-bottom: 2em;
 }
 
 .cold {

@@ -81,5 +81,7 @@ h2 {
 }
 
 .alarm-entry {
-	padding-right: 3em;
+	padding-right: 1em;
+	display: flex;
+	align-items: center;
 }

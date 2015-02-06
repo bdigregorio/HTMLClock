@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>Ben's super cool weather clock of doom</title>
         <link href="css/index.css" rel="stylesheet" type="text/css">
         <link href="css/alarm.css" rel="stylesheet" type="text/css">
@@ -20,7 +21,7 @@
                 <input type="button" value="Add Alarm" class="button" onclick="showAlarmPopup()"/>
             </div>
             <div id="alarms"></div>
-        </div>   
+        </div>
 
         <div id="mask" class="hide">
             <div id="popup" class="hide">
@@ -35,7 +36,7 @@
                         <option>pm</option>
                     </select>
                 </div>
-                <input type="text" id="alarmName" placeholder="Alarm Name" />      
+                <input type="text" id="alarmName" placeholder="Alarm Name" />
                 <div class="flexible">
                     <input type="button" value="Cancel" class="button" onclick="hideAlarmPopup()"/>
                     <input type="button" value="Save Alarm" class="button" onclick="addAlarm()"/>
