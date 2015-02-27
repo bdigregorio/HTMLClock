@@ -92,6 +92,7 @@ function addAlarm() {
         {   success: function() {
                 insertAlarm(hours, mins, ampm, alarmName);
                 hideAlarmPopup();
+                ga('send', 'event', 'Alarm', 'Add');
             }
         }
     );
@@ -127,6 +128,7 @@ function removeAlarm() {
         success: function(results) {
             results[0].destroy();
             alarmRow.remove();
+            ga('send', 'event', 'Alarm', 'Delete');
         },
         error: function() {
             alert('Problem deleting alarm from Parse');
