@@ -199,10 +199,10 @@ function displayUserData() {
             'userId': 'me'
         });
         request.execute(function(resp) {
+            loggedInUser = resp.id;
             console.log('Retrieved profile for: ' + resp.displayName);
             $('#welcome-text').text('Welcome ' + resp.displayName).removeClass('hide');
             getAllAlarms(resp.id);
-            loggedInUser = resp.id;
         });
     });
 }
