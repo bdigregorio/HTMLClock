@@ -144,7 +144,7 @@ function populateAlarmOptions() {
         hours.append(option);
     }
 
-    for (var i = 5; i < 61; i += 5) {
+    for (var i = 0; i < 60; i += 5) {
         option = $('<option>').html(leadingZero(i));
         mins.append(option);
     }
@@ -200,6 +200,7 @@ function displayUserData() {
         });
         request.execute(function(resp) {
             loggedInUser = resp.id;
+            $('#alarms').empty();
             console.log('Retrieved profile for: ' + resp.displayName);
             $('#welcome-text').text('Welcome ' + resp.displayName).removeClass('hide');
             getAllAlarms(resp.id);
