@@ -14,6 +14,23 @@ body {
     font-size: 0.7em;
 }
 
+#authentication-div {
+    margin-top: -0.9em;
+    margin-bottom: 1.5em;
+}
+
+#sign-in-btn {
+    padding-left: 15em;
+}
+
+#sign-out-text {
+    padding-left: 5em;
+}
+
+.hide {
+    display: none;
+}
+
 #clock {
     margin-top: 0;
 }

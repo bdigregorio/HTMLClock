@@ -1,8 +1,10 @@
+var loggedInUser = '';
+
 window.onload = function() {
     window.setInterval(getTime, 1000);
+    Parse.initialize("DLZ29nzgM1Mf5tZHA1ktZBm2hnnH5LLX03eCA0pF", "HSHOLZReqnKULWZTqIN8s0lplrBovrrcJhNhmJ0h");
     getTemp();
     populateAlarmOptions();
-    getAllAlarms();
 };
 
 function getTime() {
@@ -34,8 +36,6 @@ function getTemp() {
         $('body').addClass(bgColor);
     };
 
-    $.getJSON(url, success);
-
     function getBgColor(temp) {
         var color;
 
@@ -57,6 +57,8 @@ function getTemp() {
 
         return color;
     }
+
+    $.getJSON(url, success);
 }
 
 function showAlarmPopup() {
@@ -84,7 +86,8 @@ function addAlarm() {
         {   'hours': hours,
             'mins': mins,
             'ampm': ampm,
-            'alarmName': alarmName
+            'alarmName': alarmName,
+            'userId': loggedInUser
         },
         {   success: function() {
                 insertAlarm(hours, mins, ampm, alarmName);
@@ -141,17 +144,17 @@ function populateAlarmOptions() {
         hours.append(option);
     }
 
-    for (var i = 1; i < 61; i++) {
+    for (var i = 5; i < 61; i += 5) {
         option = $('<option>').html(leadingZero(i));
         mins.append(option);
     }
 }
 
-function getAllAlarms() {
-    Parse.initialize("DLZ29nzgM1Mf5tZHA1ktZBm2hnnH5LLX03eCA0pF", "HSHOLZReqnKULWZTqIN8s0lplrBovrrcJhNhmJ0h");
-
+function getAllAlarms(userId) {
     var AlarmObject = Parse.Object.extend('Alarm');
     var query = new Parse.Query(AlarmObject);
+
+    query.contains('userId', loggedInUser);
 
     query.find({
         success: function(results) {
@@ -164,8 +167,46 @@ function getAllAlarms() {
                 name = results[i].get('alarmName');
 
                 insertAlarm(hours, mins, ampm, name);
-                // insertAlarm(results[i].get('time'), results[i].get('alarmName'));
             }
         }
     });
+}
+
+function signInCallback(authResult) {
+    var getProfileUrl = 'https://www.googleapis.com/plus/v1/people/me';
+
+    if (authResult['status']['signed_in']) {
+        // Update the app to reflect a signed in user
+        document.getElementById('signinButton').setAttribute('style', 'display: none');
+        $('#sign-out-text').removeClass('hide');
+        displayUserData();
+    } else {
+        // Update the app to reflect a signed out user
+        console.log('Sign-in state: ' + authResult['error']);
+        if (authResult['error'] === 'user_signed_out') {
+            $('#welcome-text').addClass('hide').text('');
+            $('#sign-out-text').addClass('hide');
+            $('#alarms').empty();
+            document.getElementById('signinButton').setAttribute('style', 'display: inline');
+            loggedInUser = '';
+        }
+    }
+}
+
+function displayUserData() {
+    gapi.client.load('plus', 'v1', function() {
+        var request = gapi.client.plus.people.get({
+            'userId': 'me'
+        });
+        request.execute(function(resp) {
+            console.log('Retrieved profile for: ' + resp.displayName);
+            $('#welcome-text').text('Welcome ' + resp.displayName).removeClass('hide');
+            getAllAlarms(resp.id);
+            loggedInUser = resp.id;
+        });
+    });
+}
+
+function signOut() {
+    gapi.auth.signOut();
 }
